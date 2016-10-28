@@ -1,0 +1,897 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Platform.Invoke</name>
+    </assembly>
+    <members>
+        <member name="T:Platform.Invoke.Attributes.EntryPointAttribute">
+            <summary>
+            Explicitly defines the entry point to use for the method call.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.EntryPointAttribute.Name">
+            <summary>
+            Gets or sets the entry point name.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Attributes.EntryPointAttribute.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="T:Platform.Invoke.Attributes.EntryPointFormatAttribute">
+            <summary>
+            Defines a format for entry point lookup names in the library implementation.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.EntryPointFormatAttribute.Format">
+            <summary>
+            Gets or sets the formatting to use for name lookups. Use {0} to specify method name.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Attributes.EntryPointFormatAttribute.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="format">Format to use. {0} defines the member name.</param>
+        </member>
+        <member name="T:Platform.Invoke.Attributes.LibraryAttribute">
+            <summary>
+            Explicitly states the library to use.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.LibraryAttribute.Name">
+            <summary>
+            Gets or sets the name of the library to use.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Attributes.LibraryAttribute.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="T:Platform.Invoke.Attributes.ProbeActions">
+            <summary>
+            Specifies probe actions for <see cref="T:Platform.Invoke.Attributes.SkipProbeAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.ProbeActions.None">
+            <summary>
+            No probes are skipped. This is the behavior if the attribute is not set.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.ProbeActions.Begin">
+            <summary>
+            Specifies that the begin probe should not be called.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.ProbeActions.End">
+            <summary>
+            Specifies that the end probe should not be called.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.ProbeActions.BeginAndEnd">
+            <summary>
+            Specifies that no probes should be called.
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.Attributes.SkipProbeAttribute">
+            <summary>
+            Declares that this field should not invoke probe methods.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Attributes.SkipProbeAttribute.SkipActions">
+            <summary>
+            Actions to skip.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Attributes.SkipProbeAttribute.#ctor(Platform.Invoke.Attributes.ProbeActions)">
+            <summary>
+            
+            </summary>
+            <param name="actions"></param>
+        </member>
+        <member name="M:Platform.Invoke.Attributes.SkipProbeAttribute.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.IConstructorBuilder">
+            <summary>
+            Provides an interface for constructor builder implementers.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.IConstructorBuilder.GenerateConstructor(System.Reflection.Emit.TypeBuilder,System.Type,System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo},System.Collections.Generic.IEnumerable{System.Reflection.Emit.FieldBuilder})">
+            <summary>
+            Generates the constructor using the specified arguments.
+            </summary>
+            <param name="owner">Constructor owner type</param>
+            <param name="interfaceType">Type of interface implemented by <see paramref="owner"/>.</param>
+            <param name="methods">Methods defined by <see paramref="owner"/> that exposes the functions defined by <see paramref="interfaceType"/>.</param>
+            <param name="fields">Internal fields for function delegates defined by <see paramref="owner"/>.</param>
+            <returns><see cref="T:System.Reflection.Emit.ConstructorBuilder"/> for the specified <see paramref="owner"/>.</returns>
+        </member>
+        <member name="T:Platform.Invoke.DefaultConstructorBuilder">
+            <summary>
+            Defines the default implementation of IConstructorBuilder.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.DefaultConstructorBuilder.#ctor(System.Func{System.String,System.String})">
+            <summary>
+            
+            </summary>
+            <param name="lookupFunctionName">Supplies a function lookup name transformation. Set this to null to use the method name verbatim.</param>
+        </member>
+        <member name="M:Platform.Invoke.DefaultConstructorBuilder.DefineConstructor(System.Reflection.Emit.TypeBuilder,System.Type)">
+            <summary>
+            Creates the constructor builder.
+            </summary>
+            <param name="owner">Owner type to create constructor for.</param>
+            <param name="interfaceType"></param>
+            <returns><see cref="T:System.Reflection.Emit.ConstructorBuilder"/> specified in <see paramref="owner"/>.</returns>
+        </member>
+        <member name="M:Platform.Invoke.DefaultConstructorBuilder.EmitBegin(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.Emit.ILGenerator)">
+            <summary>
+            Method is invoked at start of constructor generator.
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType"></param>
+            <param name="generator"></param>
+        </member>
+        <member name="M:Platform.Invoke.DefaultConstructorBuilder.EmitEnd(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.Emit.ILGenerator)">
+            <summary>
+            Method is invoked at the end of the constructor generator.
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType"></param>
+            <param name="generator"></param>
+        </member>
+        <member name="M:Platform.Invoke.DefaultConstructorBuilder.GenerateConstructor(System.Reflection.Emit.TypeBuilder,System.Type,System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo},System.Collections.Generic.IEnumerable{System.Reflection.Emit.FieldBuilder})">
+            <summary>
+            Generates the constructor using the specified arguments.
+            </summary>
+            <param name="owner"></param>
+            <param name="interfaceType"></param>
+            <param name="methods"></param>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Platform.Invoke.IDelegateTypeBuilder">
+            <summary>
+            Provides an interface to create new delegate types.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.IDelegateTypeBuilder.CreateDelegateType(System.Reflection.MethodInfo,System.Reflection.Emit.ModuleBuilder)">
+            <summary>
+            Creates a <see cref="T:System.Delegate">delegate type</see> matching the specified method in the specified module.
+            </summary>
+            <param name="method">Method to create a delegate type for.</param>
+            <param name="module">Module that will contain the new delegate type.</param>
+            <returns>The created delegate type.</returns>
+        </member>
+        <member name="T:Platform.Invoke.DelegateTypeBuilder">
+            <summary>
+            This class is used to construct a delegate type from a method definition. Attributes are copied as well.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.DelegateTypeBuilder.CreateDelegateType(System.Reflection.MethodInfo,System.Reflection.Emit.ModuleBuilder)">
+            <summary>
+            Creates a <see cref="T:System.Delegate">delegate type</see> matching the specified method in the specified module.
+            </summary>
+            <param name="method">Method to create a delegate type for.</param>
+            <param name="module">Module that will contain the new delegate type.</param>
+            <returns>The created delegate type.</returns>
+        </member>
+        <member name="M:Platform.Invoke.DelegateTypeBuilder.CopyParameterAttributes(System.Reflection.Emit.ParameterBuilder,System.Reflection.ParameterInfo)">
+            <summary>
+            Copies parameter attributes. This is used to copy marshalling attributes and other relevant data.
+            </summary>
+            <param name="builder"></param>
+            <param name="parameter"></param>
+        </member>
+        <member name="M:Platform.Invoke.DelegateTypeBuilder.FixMarshalTypeAttributes(System.Collections.Generic.IList{System.Reflection.CustomAttributeNamedArgument})">
+            <summary>
+            Fixes MarshalType attributes to overcome an issue where the TypeRef will look for the specified custom marshalling in the dynamic assembly.
+            </summary>
+            <param name="namedArguments"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.DelegateTypeBuilder.ProcessReturnParameterAttributes(System.Reflection.MethodInfo,System.Reflection.Emit.MethodBuilder)">
+            <summary>
+            Copies return type attributes to the new type.
+            </summary>
+            <param name="method"></param>
+            <param name="invokeMethod"></param>
+        </member>
+        <member name="T:Platform.Invoke.IMethodCallProbe`1">
+            <summary>
+            Defines an interface for function call probes.
+            </summary>
+            <typeparam name="TInterface"></typeparam>
+        </member>
+        <member name="M:Platform.Invoke.IMethodCallProbe`1.OnBeginInvoke(System.Reflection.MethodInfo,`0)">
+            <summary>
+            Invoked before a function call.
+            </summary>
+            <param name="method">Method signature for the intended callee.</param>
+            <param name="reference">Interface reference.</param>
+        </member>
+        <member name="M:Platform.Invoke.IMethodCallProbe`1.OnEndInvoke(System.Reflection.MethodInfo,`0)">
+            <summary>
+            Invoked after a function call.
+            </summary>
+            <param name="method">Method signature for the callee.</param>
+            <param name="reference">Interface reference.</param>
+        </member>
+        <member name="T:Platform.Invoke.Implementation`1">
+            <summary>
+            Provides a standard implementation of the interface using default values and attributes.
+            </summary>
+            <typeparam name="TInterface"></typeparam>
+        </member>
+        <member name="P:Platform.Invoke.Implementation`1.Instance">
+            <summary>
+            Gets an implementation of TInterface using default parameters.
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.ILibraryInterfaceMapper">
+            <summary>
+            Provides an interface for library interface mappers.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.ILibraryInterfaceMapper.Implement``1(Platform.Invoke.ILibrary,System.Object[])">
+            <summary>
+            Implements the specified interface using the specified library.
+            </summary>
+            <typeparam name="TInterface">Interface to implement.</typeparam>
+            <param name="library">Library to implement <see typeparamref="TInterface"/> with.</param>
+            <param name="additionalConstructorArguments">Additional parameters required by the <see cref="T:Platform.Invoke.IConstructorBuilder"/>. <see cref="T:Platform.Invoke.DefaultConstructorBuilder"/> requires no additional parameters. <see cref="T:Platform.Invoke.ProbingConstructorBuilder"/> requires one parameter of type <see cref="T:Platform.Invoke.IMethodCallProbe`1"/>.</param>
+            <returns>Implemented interface.</returns>
+        </member>
+        <member name="T:Platform.Invoke.LibraryInterfaceMapper">
+            <summary>
+            Implements the default library interface mapper using the specified <see cref="T:Platform.Invoke.IDelegateTypeBuilder"/>, <see cref="T:Platform.Invoke.IMethodCallWrapper"/> and <see cref="T:Platform.Invoke.IConstructorBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceMapper.#ctor(Platform.Invoke.IDelegateTypeBuilder,Platform.Invoke.IConstructorBuilder,Platform.Invoke.IMethodCallWrapper)">
+            <summary>
+            Creates an instance of a LibraryInterfaceMapper using the specified builder.
+            </summary>
+            <param name="delegateBuilder"></param>
+            <param name="ctorBuilder"></param>
+            <param name="methodWrapper"></param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="delegateBuilder"/>, <see paramref="ctorBuilder"/> or <see paramref="methodWrapper"/> is null.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceMapper.Implement``1(Platform.Invoke.ILibrary,System.Object[])">
+            <summary>
+            Implements the interface using the speicified library source.
+            </summary>
+            <typeparam name="TInterface">Interface or abstract class defining the library contract.</typeparam>
+            <param name="library">Library to use for implementation.</param>
+            <param name="additionalConstructorArguments">Additional constructor arguments may be required by special constructor builders (such as <see cref="T:Platform.Invoke.ProbingConstructorBuilder"/>).</param>
+            <returns>Instance of the interface implementation.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface of abstract class.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="library"/> is null.</exception>
+            <exception cref="T:System.MissingMethodException">Thrown if the specified method could not be located by the library.</exception>
+        </member>
+        <member name="T:Platform.Invoke.ILibrary">
+            <summary>
+            Specifies an interface for libraries.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.ILibrary.GetProcedure(System.Type,System.String)">
+            <summary>
+            Gets a procedure for the named function and returns it as the specified delegate type.
+            </summary>
+            <param name="delegateType">Type of <see cref="T:System.Delegate"/> to return.</param>
+            <param name="name">Function to return a delegate for.</param>
+            <returns>A delegate if the function is found. Returns null if none can be found.</returns>
+        </member>
+        <member name="M:Platform.Invoke.ILibrary.GetProcedure``1(System.String)">
+            <summary>
+            Gets a procedure for the named function and returns it as the specified delegate type.
+            </summary>
+            <typeparam name="TDelegate">Delegate type to return.</typeparam>
+            <param name="name">Function to return a delegate for.</param>
+            <returns>A delegate if the function is found. Returns null if none can be found.</returns>
+        </member>
+        <member name="P:Platform.Invoke.ILibrary.Name">
+            <summary>
+            Gets the name of the library.
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.ILibraryLoader">
+            <summary>
+            Specifies an interface for library loaders.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.ILibraryLoader.Load(System.String)">
+            <summary>
+            Loads a library and returns an wrapper implementation for loading functions from it.
+            </summary>
+            <param name="libraryName">Name of library to load.</param>
+            <returns>Returns a library function loader wrapper implementation.</returns>
+        </member>
+        <member name="T:Platform.Invoke.LibraryInterfaceFactory">
+            <summary>
+            Provides functionality for building library mappers.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(Platform.Invoke.ILibrary,System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the specified library.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="library">Library to retrieve methods from.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with all methods implemented.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="library"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if <typeparamref name="TInterface"/> is not an interface type.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(Platform.Invoke.ILibrary,Platform.Invoke.IMethodCallProbe{``0},System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the specified library and a method probe.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="library">Library to retrieve methods from.</param>
+            <param name="probe">Probe invoked before and after method invocations.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with probing invoked between calls.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="library"/> or <see paramref="probe"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(Platform.Invoke.ILibrary,System.Action{System.Reflection.MethodInfo,``0},System.Action{System.Reflection.MethodInfo,``0},System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the specified library and a method probe.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="library">Library to retrieve methods from.</param>
+            <param name="onBegin">Method to call before a method is invoked.</param>
+            <param name="onEnd">Method to call after a method is invoked.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with probing methods invoked between calls.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="library"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the library specified in LibraryAttribute on the type.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with all methods implemented.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if <see typeparamref="TInterface"/> does not have a LibraryAttribute defined.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(Platform.Invoke.IMethodCallProbe{``0},System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the library specified in LibraryAttribute on the type.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="probe">Probe invoked before and after method invocations.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with probing invoked between calls.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if <see typeparamref="TInterface"/> does not have a LibraryAttribute defined.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="probe"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(System.Action{System.Reflection.MethodInfo,``0},System.Action{System.Reflection.MethodInfo,``0},System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the library specified in LibraryAttribute on the type.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="onBegin">Method to call before a method is invoked. Can be null.</param>
+            <param name="onEnd">Method to call after a method is invoked. Can be null.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with probing methods invoked between calls.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if <see typeparamref="TInterface"/> does not have a LibraryAttribute defined.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(System.String,System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the specified library.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="library">Library to retrieve methods from.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with all methods implemented.</returns>
+            <exception cref="T:System.DllNotFoundException">Thrown if <see paramref="library"/> could not be loaded.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(System.String,Platform.Invoke.IMethodCallProbe{``0},System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the specified library and a method probe.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="library">Library to retrieve methods from.</param>
+            <param name="probe">Probe invoked before and after method invocations.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with probing invoked between calls.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+            <exception cref="T:System.DllNotFoundException">Thrown if <see paramref="library"/> could not be loaded.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryInterfaceFactory.Implement``1(System.String,System.Action{System.Reflection.MethodInfo,``0},System.Action{System.Reflection.MethodInfo,``0},System.Func{System.String,System.String})">
+            <summary>
+            Implements an interface using the specified library and a method probe.
+            </summary>
+            <typeparam name="TInterface">Interface to implement using the specified library.</typeparam>
+            <param name="library">Library to retrieve methods from.</param>
+            <param name="onBegin">Method to call before a method is invoked.</param>
+            <param name="onEnd">Method to call after a method is invoked.</param>
+            <param name="lookupFunctionName">Function name transformation. Leaving this field as null will use the method name verbatim.</param>
+            <returns>Implementation of the interface with probing methods invoked between calls.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if TInterface is not an interface type.</exception>
+            <exception cref="T:System.DllNotFoundException">Thrown if <see paramref="library"/> could not be loaded.</exception>
+        </member>
+        <member name="T:Platform.Invoke.LibraryLoaderBase">
+            <summary>
+            Provides a base class for operating system library loaders.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.LibraryLoaderBase.#ctor(System.Func{System.String,System.IntPtr})">
+            <summary>
+            Creates a library loader base with the specified loader procedure.
+            </summary>
+            <param name="loadProc">Library loader procedure.</param>
+        </member>
+        <member name="M:Platform.Invoke.LibraryLoaderBase.CreateLibrary(System.IntPtr,System.String)">
+            <summary>
+            Creates a library function loader wrapper for the specified loaded library.
+            </summary>
+            <param name="handle">Operating system provided module handle.</param>
+            <param name="libraryName">Name of the loaded library.</param>
+            <returns>Library function pointer loader wrapper implementation.</returns>
+        </member>
+        <member name="M:Platform.Invoke.LibraryLoaderBase.Load(System.String)">
+            <summary>
+            Loads a library with the specified name.
+            </summary>
+            <param name="libraryName">Name fo the library to load.</param>
+            <returns>Library function pointer loader wrapper implementation.</returns>
+        </member>
+        <member name="T:Platform.Invoke.LibraryLoaderFactory">
+            <summary>
+            Creates instances of library loaders for the specified platform.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.LibraryLoaderFactory.Create(System.PlatformID)">
+            <summary>
+            Creates a library loader for the specified operating system platform. This class is not inteded for direct use.
+            </summary>
+            <param name="platform"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.LibraryLoaderFactory.Create">
+            <summary>
+            Creates a library loader for the current operating system platform.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Platform.Invoke.IMethodCallWrapper">
+            <summary>
+            Defines an interface for method call wrappers.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.IMethodCallWrapper.GenerateInvocation(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable{System.Reflection.Emit.FieldBuilder})">
+            <summary>
+            Creates a <see cref="T:System.Reflection.Emit.MethodBuilder"/> and implements a default wrapper.
+            </summary>
+            <param name="owner">The type that will own this method.</param>
+            <param name="interfaceType">Type of interface implemented by the <paramref name="owner"/>.</param>
+            <param name="overrideMethod">Method to override.</param>
+            <param name="fieldBuilders">Fields specified by the <see paramref="owner"/>.</param>
+            <returns>MethodBuilder with an already implemented wrapper.</returns>
+        </member>
+        <member name="T:Platform.Invoke.DefaultMethodCallWrapper">
+            <summary>
+            Provides a default implementation for method call wrappers.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.DefaultMethodCallWrapper.OnInvokeBegin(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.Emit.ILGenerator,System.Reflection.MethodInfo)">
+            <summary>
+            Called to implement pre-invoke functionality.
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType"></param>
+            <param name="generator"></param>
+            <param name="interfaceMethod"></param>
+        </member>
+        <member name="M:Platform.Invoke.DefaultMethodCallWrapper.OnInvokeEnd(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.Emit.ILGenerator,System.Reflection.MethodInfo)">
+            <summary>
+            Called to implement post-invoke functionality.
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType"></param>
+            <param name="generator"></param>
+            <param name="interfaceMethod"></param>
+        </member>
+        <member name="M:Platform.Invoke.DefaultMethodCallWrapper.GenerateInvocation(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable{System.Reflection.Emit.FieldBuilder})">
+            <summary>
+            Creates a <see cref="T:System.Reflection.Emit.MethodBuilder"/> and implements a default wrapper.
+            </summary>
+            <param name="owner">The type that will own this method.</param>
+            <param name="interfaceType">Type of interface implemented by the <paramref name="owner"/>.</param>
+            <param name="overrideMethod">Method to override.</param>
+            <param name="fieldBuilders">Fields specified by the <see paramref="owner"/>.</param>
+            <returns>MethodBuilder with an already implemented wrapper.</returns>
+        </member>
+        <member name="T:Platform.Invoke.MissingEntryPointException">
+            <summary>
+            Indicates an exception where a entry point could not be found in a library.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.MissingEntryPointException.#ctor(System.String,Platform.Invoke.ILibrary)">
+            <summary>
+            Creates an instance of an exception describing a missing entry point.
+            </summary>
+            <param name="entryPoint"></param>
+            <param name="library"></param>
+        </member>
+        <member name="P:Platform.Invoke.MissingEntryPointException.EntryPoint">
+            <summary>
+            Gets the name of the entry point.
+            </summary>
+        </member>
+        <member name="P:Platform.Invoke.MissingEntryPointException.LibraryName">
+            <summary>
+            Gets the name of the lookup library.
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.ProbingConstructorBuilder">
+            <summary>
+            Provides an implementation for a <see cref="T:System.Reflection.Emit.ConstructorBuilder"/> that emits functionality for <see cref="T:Platform.Invoke.IMethodCallProbe`1"/>.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.ProbingConstructorBuilder.#ctor(System.Func{System.String,System.String})">
+            <summary>
+            
+            </summary>
+            <param name="lookupFunctionName">Supplies a function lookup name transformation. Set this to null to use the method name verbatim.</param>
+        </member>
+        <member name="M:Platform.Invoke.ProbingConstructorBuilder.DefineConstructor(System.Reflection.Emit.TypeBuilder,System.Type)">
+            <summary>
+            Defines the constructor used.
+            </summary>
+            <param name="owner"></param>
+            <param name="interfaceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.ProbingConstructorBuilder.EmitBegin(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.Emit.ILGenerator)">
+            <summary>
+            Emits begin call
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType"></param>
+            <param name="generator"></param>
+        </member>
+        <member name="P:Platform.Invoke.ProbingConstructorBuilder.ProbeField">
+            <summary>
+            The field created for the <see cref="T:Platform.Invoke.IMethodCallProbe`1"/> instance.
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.ProbingMethodCallWrapper">
+            <summary>
+            Provides an implementation of a <see cref="T:Platform.Invoke.IMethodCallWrapper"/> that supports function probing.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.ProbingMethodCallWrapper.#ctor(System.Func{System.Reflection.Emit.FieldBuilder})">
+            <summary>
+            Creates an instance of a method call wrapper with a getter for the specified probe field.
+            </summary>
+            <param name="probeField">Function returning a probe filed (as specified by <see cref="P:Platform.Invoke.ProbingConstructorBuilder.ProbeField"/>)</param>
+        </member>
+        <member name="M:Platform.Invoke.ProbingMethodCallWrapper.OnInvokeBegin(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.Emit.ILGenerator,System.Reflection.MethodInfo)">
+            <summary>
+            Implements code for begin invocations.
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType"></param>
+            <param name="generator"></param>
+            <param name="interfaceMethod"></param>
+        </member>
+        <member name="M:Platform.Invoke.ProbingMethodCallWrapper.OnInvokeEnd(System.Reflection.Emit.TypeBuilder,System.Type,System.Reflection.Emit.ILGenerator,System.Reflection.MethodInfo)">
+            <summary>
+            Implements code for end invocations.
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType"></param>
+            <param name="generator"></param>
+            <param name="interfaceMethod"></param>
+        </member>
+        <member name="T:Platform.Invoke.ProcProbe`1">
+            <summary>
+            Implements a probe with begin and end delegates.
+            </summary>
+            <typeparam name="TInterface"></typeparam>
+        </member>
+        <member name="M:Platform.Invoke.ProcProbe`1.#ctor(System.Action{System.Reflection.MethodInfo,`0},System.Action{System.Reflection.MethodInfo,`0})">
+            <summary>
+            Creates a new probe using the specified begin and end delegates.
+            </summary>
+            <param name="onBegin"></param>
+            <param name="onEnd"></param>
+        </member>
+        <member name="T:Platform.Invoke.Unix.UnixLibrary">
+            <summary>
+            Implements library function loading using libdl.
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.LibraryBase">
+            <summary>
+            Implements base common functionality for operating system libraries.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.LibraryBase.Dispose">
+            <summary>
+            Unloads the library.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.LibraryBase.#ctor(System.IntPtr,Platform.Invoke.ILibraryProcProvider,System.String)">
+            <summary>
+            Creates a new instance of the library base.
+            </summary>
+            <param name="moduleHandle">Operating system provided module handle.</param>
+            <param name="provider">Provider used to implement loader functionality.</param>
+            <param name="libraryName">Name of the loaded library.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="moduleHandle"/> or <see paramref="provider"/> is null.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryBase.GetProcedure(System.Type,System.String)">
+            <summary>
+            Gets the procedure associated with the specified name as a delegate of the specified type.
+            </summary>
+            <param name="delegateType">Type of delegate to return. This cannot be a generic type.</param>
+            <param name="name">Name of the function to look up.</param>
+            <returns>Returns a delegate for the function if found. Returns null if the function couldn't be located.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <see paramref="delegateType"/> is a generic type or not a delegate type.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="delegateType"/> or <see paramref="name"/> is null.</exception>
+        </member>
+        <member name="M:Platform.Invoke.LibraryBase.GetProcedure``1(System.String)">
+            <summary>
+            Gets the procedure associated with the specified name as a delegate of the specified type.
+            </summary>
+            <typeparam name="TDelegate">Type of delegate to return. This cannot be a generic type.</typeparam>
+            <param name="name">Name of the function to look up.</param>
+            <returns>Returns a delegate for the function if found. Returns null if the function couldn't be located.</returns>
+            <exception cref="T:System.ArgumentException">Thrown if <see paramref="TDelegate"/> is a generic type or not a delegate type.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="name"/> is null.</exception>
+        </member>
+        <member name="P:Platform.Invoke.LibraryBase.Name">
+            <summary>
+            Gets the name of the library that was used to load it.
+            </summary>
+        </member>
+        <member name="P:Platform.Invoke.LibraryBase.Handle">
+            <summary>
+            Gets the operating system provided handle to this library.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibrary.#ctor(System.IntPtr,System.String)">
+            <summary>
+            Creates a new instance of a Unix library loader (using libdl).
+            </summary>
+            <param name="moduleHandle">Handle to the loaded module returned by dlopen(3).</param>
+            <param name="libraryName">Name of the loaded library.</param>
+        </member>
+        <member name="T:Platform.Invoke.Unix.UnixLibraryLoader">
+            <summary>
+            Library loading support for Unix operating systems (including OS X).
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryLoader.dlopen(System.String,Platform.Invoke.Unix.UnixLibraryLoader.Flags)">
+            <summary>
+            Unix library loader function.
+            </summary>
+            <param name="filename">Filename to load,</param>
+            <param name="flags">Loader flags. Typically RTLD_LAZY.</param>
+            <returns>Handle to the library.</returns>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryLoader.#ctor">
+            <summary>
+            Creates an instance of UnixLibraryLoader using default implementation with dlopen.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryLoader.CreateLibrary(System.IntPtr,System.String)">
+            <summary>
+            Returns the created library for the specified handle and library name.
+            </summary>
+            <param name="handle">Operating system provided library handle.</param>
+            <param name="libraryName">Name fo the loaded library.</param>
+            <returns><see cref="T:Platform.Invoke.ILibrary"/> interface for the specified library.</returns>
+        </member>
+        <member name="T:Platform.Invoke.Unix.UnixLibraryLoader.Flags">
+            <summary>
+            Defines flags used by dlopen.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Unix.UnixLibraryLoader.Flags.Lazy">
+            <summary>
+            Perform lazy binding. Only resolve symbols as the code that references them is executed. 
+            If the symbol is never referenced, then it is never resolved. (Lazy binding is only 
+            performed for function references; references to variables are always immediately bound
+            when the library is loaded.)
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Unix.UnixLibraryLoader.Flags.Now">
+            <summary>
+            If this value is specified, or the environment variable LD_BIND_NOW is set to a nonempty 
+            string, all undefined symbols in the library are resolved before dlopen() returns.
+            If this cannot be done, an error is returned.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Unix.UnixLibraryLoader.Flags.Global">
+            <summary>
+            The symbols defined by this library will be made available for symbol resolution of 
+            subsequently loaded libraries.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Unix.UnixLibraryLoader.Flags.Local">
+            <summary>
+            This is the converse of <see cref="F:Platform.Invoke.Unix.UnixLibraryLoader.Flags.Global"/>, and the default if neither flag is specified. 
+            Symbols defined in this library are not made available to resolve references in subsequently 
+            loaded libraries.
+            </summary>
+        </member>
+        <member name="F:Platform.Invoke.Unix.UnixLibraryLoader.Flags.NoDelete">
+            <summary>
+            Do not unload the library during dlclose(). Consequently, the library's static variables are
+            not reinitialized if the library is reloaded with dlopen() at a later time. This flag is not
+            specified in POSIX.1-2001.
+            </summary>
+        </member>
+        <member name="T:Platform.Invoke.ILibraryProcProvider">
+            <summary>
+            Provides an interface for library internal functionality.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.ILibraryProcProvider.Free(System.IntPtr)">
+            <summary>
+            Frees the specified library.
+            </summary>
+            <param name="module">Operating system provided module handle.</param>
+            <returns>True if the library was successfully freed, otherwise false.</returns>
+        </member>
+        <member name="M:Platform.Invoke.ILibraryProcProvider.GetProc(System.IntPtr,System.String)">
+            <summary>
+            Gets a function pointer for the specified function in the specified module.
+            </summary>
+            <param name="module">Operating system provided module handle.</param>
+            <param name="procName">Library function name</param>
+            <returns>Function pointer or null if the function could not be located in the specfified module.</returns>
+        </member>
+        <member name="M:Platform.Invoke.ILibraryProcProvider.GetDelegateFromFunctionPointer(System.IntPtr,System.Type)">
+            <summary>
+            Creates a delegate for the specified function pointer.
+            </summary>
+            <param name="functionPointer"></param>
+            <param name="delegateType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Platform.Invoke.Unix.UnixLibraryProcProvider">
+            <summary>
+            Implements function loading and library handling for Unix operating systems.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryProcProvider.dlsym(System.IntPtr,System.String)">
+            <summary>
+            Gets a symbol pointer from the specified module.
+            </summary>
+            <param name="handle">Operating system handle to a library.</param>
+            <param name="symbolName">Name of symbol to locate.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryProcProvider.dlclose(System.IntPtr)">
+            <summary>
+            Closes a library.
+            </summary>
+            <param name="handle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryProcProvider.Free(System.IntPtr)">
+            <summary>
+            Free this library.
+            </summary>
+            <param name="module">Module to free.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryProcProvider.GetProc(System.IntPtr,System.String)">
+            <summary>
+            Retrieves a pointer to the specified function.
+            </summary>
+            <param name="module">Operating system provided library handle.</param>
+            <param name="procName">Library function name.</param>
+            <returns>Pointer to the loaded function. Null if procedure could not be located.</returns>
+        </member>
+        <member name="M:Platform.Invoke.Unix.UnixLibraryProcProvider.GetDelegateFromFunctionPointer(System.IntPtr,System.Type)">
+            <summary>
+            Gets a delegate for the specified function pointer.
+            </summary>
+            <param name="functionPointer">Function pointer retrieved using <see cref="M:Platform.Invoke.Unix.UnixLibraryProcProvider.GetProc(System.IntPtr,System.String)"/>.</param>
+            <param name="delegateType">Type of delegate to return.</param>
+            <returns><see cref="T:System.Delegate"/> fro the specified function pointer.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see paramref="functionPointer"/> or <see paramref="delegateType"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if <see paramref="delegateType"/> is not null.</exception>
+        </member>
+        <member name="T:Platform.Invoke.Windows.WindowsLibrary">
+            <summary>
+            Provides a library implementation for Windows libraries.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibrary.#ctor(System.IntPtr,System.String)">
+            <summary>
+            Creates a new instance of a Windows library using the specified module handle and library name.
+            </summary>
+            <param name="moduleHandle">operating system provided module handle.</param>
+            <param name="libraryName">Name of the loaded library.</param>
+        </member>
+        <member name="T:Platform.Invoke.Windows.WindowsLibraryLoader">
+            <summary>
+            Provides an implementation for loading Windows libraries.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryLoader.LoadLibrary(System.String)">
+            <summary>
+            Loads a library into the current running process.
+            </summary>
+            <param name="filename"></param>
+            <returns>Module handle if loading was successful, otherwise null.</returns>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryLoader.#ctor">
+            <summary>
+            Creates an instance of a Windows library loader.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryLoader.CreateLibrary(System.IntPtr,System.String)">
+            <summary>
+            Creates an implementation of a Windows library using the specified module handle and library name.
+            </summary>
+            <param name="handle">Operating system provided module handle.</param>
+            <param name="libraryName">Name of the loaded library.</param>
+            <returns>Implementation of <see cref="T:Platform.Invoke.Windows.WindowsLibrary"/> for the specified arguments.</returns>
+        </member>
+        <member name="T:Platform.Invoke.Windows.WindowsLibraryProcProvider">
+            <summary>
+            Provides an internal implementation of Windows libraru functionality.
+            </summary>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryProcProvider.FreeLibrary(System.IntPtr)">
+            <summary>
+            Frees a library loaded with LoadLibrary.
+            </summary>
+            <param name="module"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryProcProvider.GetProcAddress(System.IntPtr,System.String)">
+            <summary>
+            Retrieves a function poiunter for the specified procedure name in the specified module.
+            </summary>
+            <param name="module">Operating system provided module handle.</param>
+            <param name="procName">Library function name</param>
+            <returns>Function pointer or null if the function could not be located.</returns>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryProcProvider.Free(System.IntPtr)">
+            <summary>
+            Frees the specified library.
+            </summary>
+            <param name="module"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryProcProvider.GetProc(System.IntPtr,System.String)">
+            <summary>
+            Retrieves a functioon pointer for the specified function in the specified module.
+            </summary>
+            <param name="module">Operating system provided module handle.</param>
+            <param name="procName">Library function name.</param>
+            <returns>Function pointer or null if function could not be located.</returns>
+        </member>
+        <member name="M:Platform.Invoke.Windows.WindowsLibraryProcProvider.GetDelegateFromFunctionPointer(System.IntPtr,System.Type)">
+            <summary>
+            Creates a delegate for the specified function pointer.
+            </summary>
+            <param name="functionPointer"></param>
+            <param name="delegateType"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
