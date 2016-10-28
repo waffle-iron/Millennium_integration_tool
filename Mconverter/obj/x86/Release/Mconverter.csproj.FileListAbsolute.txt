@@ -78,4 +78,3 @@ C:\!2\Mconverter\bin\x86\Release\FirebirdSql.Data.FirebirdClient.pdb
 C:\!2\Mconverter\bin\x86\Release\NLog.xml
 C:\!2\Mconverter\bin\x86\Release\Platform.Invoke.xml
 C:\!2\Mconverter\bin\x86\Release\ShellProgressBar.pdb
-C:\!2\Mconverter\obj\x86\Release\Mconverter.csprojResolveAssemblyReference.cache

@@ -147,23 +147,7 @@ namespace Mconverter
             logger.Fatal("fatal log message");
         
             */
-
-
-
-            /*string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
-            string subpath = @"exportdata";
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
-            if (!dirInfo.Exists)
-            {
-                dirInfo.Create();
-            }
-            dirInfo.CreateSubdirectory(subpath);*/
-
-
-            //string libpath = path + '@\lib';
-           
-
+            
 
             // strConnectionString s- соединение с базой ARHIMED
             //string strConnectionString = System.Configuration.ConfigurationManager.AppSettings["DB_CONN_STRING"];
@@ -501,49 +485,13 @@ namespace Mconverter
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("нет соотоветствующей базы CLD, файлы загружаются без протоколов");
+                        Console.WriteLine("нет соотоветствия в базе CLD, plain Dicom");
                         cmd2.Parameters.Add("@Name", SqlDbType.NVarChar).Value = _patientName;
                         db.Close();
                         // Console.WriteLine("The process failed: {0}", e.ToString());
                         //logger.Warn(e);
                     }
-
-
-
-
-
-
-
-                    /* foreach (var kart_pac in ourkart_pac)
-                     {
-                         Console.WriteLine(new string('*', 20));
-
-                        Console.WriteLine("ФИО: " + kart_pac.FIO);
-
-                          Console.WriteLine(new string('*', 20));
-
-                     }*/
-
-
-
-
-
-
-                    //  string fio = ourkart_pac[0].FIO;
-                    //Console.WriteLine(fio);
-
-                    //cmd2.Parameters.Add("@Name", SqlDbType.NVarChar).Value = _patientName;
-
-
-
-                    //Protocol
-                    //Console.WriteLine(filn);
-                    // string SqlString4 = "SELECT NUMBERKART, OPISANIE, SAKL FROM PROTOCOL WHERE NUMBERKART = " + filn;
-                    /*var out_protocol = (IEnumerable<protocol>)db.Query<protocol>(SqlString4);
-
-                    long protoco = out_protocol.ElementAt(0).NUMBERKART;
-                    Console.WriteLine(protoco);
-                   Console.ReadLine();*/
+                    
 
                     try
                     {
@@ -563,7 +511,7 @@ namespace Mconverter
                             }
                             else
                             {
-                                cmd1.Parameters.Add("@Note", SqlDbType.NVarChar).Value = "protoc";
+                                cmd1.Parameters.Add("@Note", SqlDbType.NVarChar).Value = "  ";
                             }
 
                             
@@ -582,7 +530,7 @@ namespace Mconverter
                     catch (Exception e)
                     {
                         Console.WriteLine("нет соотоветствующей базы CLD, файлы загружаются без протоколов");
-                        cmd1.Parameters.Add("@Note", SqlDbType.NVarChar).Value = "protoc";
+                        cmd1.Parameters.Add("@Note", SqlDbType.NVarChar).Value = "  ";
                         db.Close();
                         // Console.WriteLine("The process failed: {0}", e.ToString());
                         //logger.Warn(e);
@@ -648,7 +596,7 @@ namespace Mconverter
                         Console.WriteLine(" нет протокола");
                     }*/
 
-                    cmd1.Parameters.Add("@Result", SqlDbType.NVarChar).Value = "test";
+                    cmd1.Parameters.Add("@Result", SqlDbType.NVarChar).Value = " ";
 
                  /*
                     if (out_protocol.ElementAt(0).SAKL != null)
